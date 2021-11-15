@@ -1,0 +1,80 @@
+import pygame
+import sys
+from time import sleep
+import random
+
+padWidth = 500
+padHeight = 500
+block_sort=['red.png','blue.png','yellow.png']
+
+
+def initGame():
+    global gamePad, clock, background, b
+    pygame.init()
+
+    gamePad = pygame.display.set_mode((padWidth, padHeight))
+    pygame.display.set_caption('Block Elimination')
+    background = pygame.image.load('background.JFIF')
+    clock = pygame.time.Clock() 
+    b =  []
+
+def runGame():
+    global gamePad, clock, background, b
+    
+    onGame = False
+    
+    block_image = pygame.image.load(random.choice(block_sort))
+    block = block_image.get_rect(left=0, top=-300)
+    b.append(block)
+
+
+    while not onGame:
+        for event in pygame.event.get():
+            if event.type in [pygame.QUIT]:
+                pygame.quit()
+                sys.exit()
+                
+        
+    
+                        
+        gamePad.blit(background, (0, 0))
+        
+        for block in b:
+            block.top += 1
+            
+        if block.top > -250:
+            block_image = pygame.image.load(random.choice(block_sort))
+            block = block_image.get_rect(left=0, top=-300)
+            b.append(block)
+        
+            if event.type in [pygame.KEYDOWN]:
+                if event.key == pygame.K_LEFT:
+                    if block_image == pygame.image.load('red.png'):
+                        del(b[-1])
+                    else:
+                        pygame.quit()
+                if event.key == pygame.K_DOWN:
+                    if block_image == pygame.image.load('blue.png'):
+                        del(b[-1])
+                    else:
+                        pygame.quit()
+                if event.key == pygame.K_RIGHT:
+                    if block_image == pygame.image.load('yellow.png'):
+                        del(b[-1])
+                    else:
+                        pygame.quit()
+                        
+        if b[-1].top > padHeight:
+            pygame.quit()
+        
+        for block in b:    
+            gamePad.blit(block_image, block)
+        
+        pygame.display.update()
+        
+        clock.tick(30)
+        
+    pygame.quit()
+    
+initGame()
+runGame()
