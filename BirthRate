@@ -1,0 +1,29 @@
+import matplotlib.pyplot as plt
+import pandas as pd
+
+Birth_Rate=pd.read_csv("c:/temp/birth_rate.csv")
+Age_Rate=pd.read_csv("c:/temp/age_rate.csv")
+Multiple=pd.read_csv("c:/temp/multiple.csv")
+
+
+print (Birth_Rate)
+print (Age_Rate)
+print (Multiple)
+print (Birth_Rate["15-19세"])
+print (Birth_Rate["15-19세"].max())
+
+Age_Rate["평균"] = [(Birth_Rate["15-19세"]).mean(),(Birth_Rate["20-24세"]).mean(), (Birth_Rate["25-29세"]).mean(), (Birth_Rate["30-34세"]).mean(), (Birth_Rate["35-39세"]).mean(), (Birth_Rate["40-44세"]).mean(), (Birth_Rate["45-49세"]).mean()] 
+
+Age_Rate.plot(kind='bar',x='자치구',y='평균')
+plt.show()
+
+Birth_Rate.plot(kind='bar',x='자치구',y='합계출산율')
+plt.show()   #자치구의 개수가 너무 많아 그래프의 가시성이 줄어듦
+
+BR_h = Birth_Rate.sort_values(by = '합계출산율').head()
+BR_t = Birth_Rate.sort_values(by = '합계출산율').tail()
+
+
+BR = pd.concat([BR_h, BR_t], axis=0, ignore_index = True)
+BR.plot(kind='bar',x='자치구',y='합계출산율')
+plt.show
